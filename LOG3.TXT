@@ -1,0 +1,17 @@
+ [ Integra di Sebastiano Dimartina ]        Connection Alive rel 1.6.1     (11/2004)
+
+
+ Per configurare in modo guidato il programma vai su  (Menu->Edit->Wizard)
+
+ Per iniziare il download sul sito prescelto  vai su         (Menu->Connessione->Avvia Download)
+
+
+ Ok...
+
+ Ping Attivato
+
+
+
+ Ping Disattivato
+
+

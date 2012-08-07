@@ -1,0 +1,8 @@
+Copyright © 2001-2005  [Integra di Sebastiano Dimartina]
+
+Questo software è fornito così come è, senza alcuna garanzia esplicita o implicita. 
+In nessun caso l'autore puo' essere ritenuto responsabile di danni provocati dall'utilizzo di questo software.
+L'utilizzo del programma e' libero per qualsiasi scopo, incluse applicazioni commerciali e/o a scopo di lucro.
+E' lecito effettuare copie del programma su supporto magnetico o telematico senza obbligo di licenza o esplicito permesso.
+E' possibile richiedere versioni personalizzate per scopi tecnici o di marketing di questo programma. In tal caso e' necessario concordare modalita' e costi con l'autore:
+-- Sebastiano Dimartina <connectionalive@softhome.net>.
