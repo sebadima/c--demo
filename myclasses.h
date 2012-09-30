@@ -1,276 +1,182 @@
-/////////////////////////////////////////////////////////////////////////////
-// Name:         myclasses.h
-// Purpose:      File header di Connection Alive 1.5
-// Author:       Sebastiano Dimartina <connectionalive@softhome.net>
-// Modified by:
-// Created:      2004/11/xx
-// RCS-ID:
-// Copyright:    (c) 2003 Integra di Sebastiano Dimartina
-// Licence:      wxWindows licence
-// Thanks to:    Guillermo Rodriguez Garcia <guille@iies.es>
-//               Vaclav Slavik (v.slavik@volny.cz)
-//               Julian Smart
-//               Vadim Zeitlin
-/////////////////////////////////////////////////////////////////////////////
-
-
-
-class MyTaskBarIcon: public wxTaskBarIcon
-{
-public:
-    MyTaskBarIcon() {};
-
-    virtual void OnMouseMove(wxEvent&);
-    virtual void OnLButtonDown(wxEvent&);
-    virtual void OnLButtonUp(wxEvent&);
-    virtual void OnRButtonDown(wxEvent&);
-    virtual void OnRButtonUp(wxEvent&);
-    virtual void OnLButtonDClick(wxEvent&);
-    virtual void OnRButtonDClick(wxEvent&);
-
-    void OnMenuRestore(wxCommandEvent&);
-    void OnMenuExit(wxCommandEvent&);
-    void OnMenuSetNewIcon(wxCommandEvent&);
-
-DECLARE_EVENT_TABLE()
-};
-
-
-
-class MyButton : public wxButton
-{
-public:
-    MyButton(wxWindow *parent,
-             wxWindowID id,
-             const wxString& label = wxEmptyString,
-             const wxPoint& pos = wxDefaultPosition,
-             const wxSize& size = wxDefaultSize)
-        : wxButton(parent, id, label, pos, size)
-    {
-    }
-private:
-    DECLARE_EVENT_TABLE()
-};
-
-
-
-
-class PaginaWizard2 : public wxWizardPageSimple
-{
-public:
-
-    PaginaWizard2(wxWizard *parent) : wxWizardPageSimple(parent)
-    {
-
-        (void)new wxStaticText(this, -1,
-           _T(" Inserite l'indirizzo completo preceduto da http://")
-           _T("\n")
-           _T(" di un sito web a vostra scelta, es. un motore di ricerca."));
-        m_ctrl = new wxTextCtrl( this, -1, _T("http://www.sitoascelta.it"), wxPoint(5, 50), wxSize(256,-1) );
-    }
-
-
-    void OnWizardCancel(wxWizardEvent& event)
-    {
-        if ( wxMessageBox(_T("Vuoi davvero Uscire?"), _T(""),
-                          wxICON_QUESTION | wxYES_NO, this) != wxYES )
-        {
-            event.Veto();
-        }
-    }
-
-
-    void OnWizardPageChanging(wxWizardEvent& event)
-    {
-        wxConfigBase *pConfig = wxConfigBase::Get();
-        pConfig->SetPath(_T("/Controls"));
-        pConfig->Write(_T("/Controls/Text3")     , m_ctrl->GetValue().c_str());
-    }
-
-private:
-    wxTextCtrl   * m_ctrl;
-    DECLARE_EVENT_TABLE()
-};
-
-
-
-class PaginaWizard4 : public wxWizardPageSimple
-{
-public:
-
-    PaginaWizard4(wxWizard *parent) : wxWizardPageSimple(parent)
-    {
-
-        (void)new wxStaticText(this, -1,
-           _T(" Inserite l'indirizzo completo preceduto da http://")
-           _T("\n")
-           _T(" del vostro server Intranet  (preferibilmente Apache > 1.3)")
-           _T("\n\n")
-           _T(" Nella casella proponiamo il valore di default 127.0.0.1 per")
-           _T("\n")
-           _T(" un server installato su questo stesso computer")
-           _T("\n\n")
-           _T(" In una installazione classica il server dovrebbe avere")
-           _T("\n")
-           _T(" un indirizzo verosimilmente del tipo 192.168.0.x"));
-        m_ctrl = new wxTextCtrl( this, -1, _T("http://127.0.0.1"), wxPoint(5, 120), wxSize(256,-1) );
-
-
-    }
-
-    void OnWizardCancel(wxWizardEvent& event)
-    {
-        if ( wxMessageBox(_T("Vuoi davvero Uscire?"), _T(""),
-                          wxICON_QUESTION | wxYES_NO, this) != wxYES )
-        {
-            event.Veto();
-        }
-    }
-
-    void OnWizardPageChanging(wxWizardEvent& event)
-    {
-        wxConfigBase *pConfig = wxConfigBase::Get();
-        pConfig->SetPath(_T("/Controls"));
-        pConfig->Write(_T("/Controls/Text4")     , m_ctrl->GetValue().c_str());
-    }
-
-private:
-    wxTextCtrl   * m_ctrl;
-    DECLARE_EVENT_TABLE()
-};
-
-
-
-
-class PaginaWizard5 : public wxWizardPageSimple
-{
-public:
-
-    PaginaWizard5(wxWizard *parent) : wxWizardPageSimple(parent)
-    {
-
-        m_bitmap = wxBITMAP(wiztest2);
-
-        (void)new wxStaticText(this, -1,
-           _T(" Definite l'intervallo tra due singoli downloads")
-           _T("\n\n")
-           _T(" Usate il cursore per definire il ritardo in secondi.\n"));
-
-        m_slider = new wxSlider(this, 181, 0, 0, 100, wxPoint(18,90), wxSize(155,-1), wxSL_AUTOTICKS | wxSL_LABELS );
-
-        m_slider->SetValue(4);
-        m_slider->SetTickFreq(40, 0);
-
-
-    }
-
-    void OnWizardCancel(wxWizardEvent& event)
-    {
-        if ( wxMessageBox(_T("Vuoi davvero Uscire?"), _T(""),
-                          wxICON_QUESTION | wxYES_NO, this) != wxYES )
-        {
-            event.Veto();
-        }
-    }
-
-    void OnWizardPageChanging(wxWizardEvent& event)
-    {
-        wxConfigBase *pConfig = wxConfigBase::Get();
-        pConfig->Write(_T("/Controls/Slider1"), (long) m_slider->GetValue() );
-    }
-
-private:
-    wxSlider   * m_slider;
-    DECLARE_EVENT_TABLE()
-};
-
-
-
-
-class wxCheckboxPage : public wxWizardPage
-{
-public:
-    wxCheckboxPage(wxWizard *parent,
-                   wxWizardPage *prev,
-                   wxWizardPage *next)
-        : wxWizardPage(parent)
-    {
-        m_prev = prev;
-        m_next = next;
-
-        (void)new wxStaticText(this, -1,
-           _T(" Se vuoi utilizzare Connection Alive per la tua Intranet devi")
-           _T("\n")
-           _T(" inserire nella prossima pagina l'indirizzo del Server Intranet.")
-           _T("\n\n")
-           _T(""));
-
-        m_checkbox = new wxCheckBox(this, -1, _T(" Non ho alcuna Intranet e voglio saltare la prossima fase"),  wxPoint(5, 60));
-    }
-
-    virtual wxWizardPage *GetPrev() const { return m_prev; }
-    virtual wxWizardPage *GetNext() const
-    {
-        wxConfigBase *pConfig = wxConfigBase::Get();
-        if (m_checkbox->GetValue() != 1)
-           pConfig->Write(_T("/Controls/ChkMaster3"), TRUE );
-        else
-           pConfig->Write(_T("/Controls/ChkMaster3"), FALSE);
-        return m_checkbox->GetValue() ? m_next->GetNext() : m_next;
-    }
-
-private:
-    wxWizardPage *m_prev,
-                 *m_next;
-
-    wxCheckBox *m_checkbox;
-};
-
-
-
-class Telecomando : public wxMiniFrame
-{
-public:
-    Telecomando(wxWindow *parent);
-
-private:
-    DECLARE_EVENT_TABLE()
-    void OnClose(wxCloseEvent& event);
-};               
-
-Telecomando    * m_telecomando;
-
-
-
-
-class CanvasParent : public wxMiniFrame
-{
-public:
-    CanvasParent(wxWindow *parent, wxWindowID id = -1, const wxString& title = _T(""),
-        const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize );
-private:
-    DECLARE_EVENT_TABLE()
-    void OnClose(wxCloseEvent& event);
-};
-
-CanvasParent    *mini_frame;
-
-
-
-
-class Istogramma: public wxScrolledWindow
-{
-public:
-    Istogramma(CanvasParent *parent);
-    void DisegnaIstogramma();
-    void OnPaint();
-private:
-    DECLARE_EVENT_TABLE()
-    wxIcon       m_std_icon;
-    bool         m_clip;
-};
-
-Istogramma      *m_Istogramma;
-
-
+unit GGASSSAL;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, GGFORMBASE, Grids, DBGrids, RXDBCtrl, adstable, DB, adsdata,
+  adsfunc, RxGrdCpt, Menus, ComCtrls, ToolWin, StdCtrls,
+  Buttons, ToolEdit, Mask, ExtCtrls, Zdataset, ZQuery_go, ZAbstractRODataset,
+  ZAbstractDataset, ZAbstractTable;
+
+type
+  TASSSAL = class(TFORMBASE)
+    v_griglia: TRxDBGrid;
+    ToolButton4: TToolButton;
+    SpeedButton1: TSpeedButton;
+    cmm: tzquery_go;
+    cmm_assegna: tzquery_go;
+    cmm_azzera: tzquery_go;
+    SpeedButton2: TSpeedButton;
+    cmm_assegna_tutto: tzquery_go;
+    procedure FormShow(Sender: TObject);
+    procedure v_grigliaKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure v_grigliaDblClick(Sender: TObject);
+    procedure v_grigliaDrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure SpeedButton1Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure SpeedButton2Click(Sender: TObject);
+  protected
+    procedure esegui_query;
+    procedure selezione_dati;
+  public
+    cms_codice, cmt_codice: string;
+    progressivo: integer;
+    alla_data: tdate;
+
+    procedure visualizza_stampa_elabora; override;
+  end;
+
+implementation
+
+{$R *.dfm}
+uses ZZVAREXT, DMARC;
+
+procedure TASSSAL.FormShow(Sender: TObject);
+begin
+  inherited;
+
+  esegui_query;
+end;
+
+procedure TASSSAL.esegui_query;
+var
+  bookmark: tbookmark;
+begin
+  bookmark := query.getbookmark;
+
+  query.close;
+  query.parambyname('cms_codice').asstring := cms_codice;
+  query.parambyname('cmt_codice').asstring := cmt_codice;
+  query.open;
+
+  query.gotobookmark(bookmark);
+  query.freebookmark(bookmark);
+
+  (v_griglia.columns.items[4].field as tfloatfield).displayformat := formato_display_quantita_zero;
+  (v_griglia.columns.items[5].field as tfloatfield).displayformat := formato_display_importo_zero;
+end;
+
+procedure TASSSAL.v_grigliaKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if ((key = vk_f2) and (shift = [])) then
+  begin
+    speedbutton1click(speedbutton1);
+  end
+  else
+  begin
+    inherited;
+    if ((key = vk_return) and (shift = [])) then
+    begin
+      selezione_dati;
+    end;
+  end;
+end;
+
+procedure TASSSAL.selezione_dati;
+var
+  i: word;
+  progressivo: integer;
+begin
+  cmm.close;
+  cmm.parambyname('progressivo').asinteger := query.fieldbyname('progressivo').asinteger;
+  if query.fieldbyname('selezionato_sal').asstring = 'no' then
+  begin
+    cmm.parambyname('selezionato_sal').asstring := 'si';
+  end
+  else
+  begin
+    cmm.parambyname('selezionato_sal').asstring := 'no';
+  end;
+  cmm.execsql;
+
+  esegui_query;
+end;
+
+procedure TASSSAL.visualizza_stampa_elabora;
+begin
+end;
+
+procedure TASSSAL.v_grigliaDblClick(Sender: TObject);
+begin
+  inherited;
+  if query.fieldbyname('progressivo').asinteger <> 0 then
+  begin
+    esegui_programma('GESCMM', query.fieldbyname('progressivo').asinteger, true);
+  end;
+end;
+
+procedure TASSSAL.v_grigliaDrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn;
+  State: TGridDrawState);
+begin
+  inherited;
+  try
+    if (lowercase(column.fieldname) = 'selezionato_sal') then
+    begin
+      if query.fieldbyname('selezionato_sal').asstring = 'si' then
+      begin
+        v_griglia.canvas.brush.color := cllime;
+        v_griglia.canvas.font.color := clblack;
+      end;
+    end;
+  except
+  end;
+
+  v_griglia.defaultdrawcolumncell(rect, datacol, column, state);
+end;
+
+procedure TASSSAL.SpeedButton1Click(Sender: TObject);
+begin
+  inherited;
+
+  cmm_assegna.close;
+  cmm_assegna.parambyname('sal_progressivo').asinteger := progressivo;
+  cmm_assegna.parambyname('cms_codice').asstring := cms_codice;
+  cmm_assegna.parambyname('cmt_codice').asstring := cmt_codice;
+  cmm_assegna.execsql;
+
+  close;
+end;
+
+procedure TASSSAL.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  inherited;
+
+  cmm_azzera.close;
+  cmm_azzera.parambyname('cms_codice').asstring := cms_codice;
+  cmm_azzera.parambyname('cmt_codice').asstring := cmt_codice;
+  cmm_azzera.execsql;
+end;
+
+procedure TASSSAL.SpeedButton2Click(Sender: TObject);
+begin
+  inherited;
+
+  cmm_assegna_tutto.close;
+  cmm_assegna_tutto.parambyname('sal_progressivo').asinteger := progressivo;
+  cmm_assegna_tutto.parambyname('cms_codice').asstring := cms_codice;
+  cmm_assegna_tutto.parambyname('cmt_codice').asstring := cmt_codice;
+  cmm_assegna_tutto.execsql;
+
+  close;
+end;
+
+initialization
+  registerclass(tasssal);
+
+end.
 
