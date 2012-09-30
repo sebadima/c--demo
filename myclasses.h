@@ -159,7 +159,7 @@ begin
   cmm_azzera.close;
   cmm_azzera.parambyname('cms_codice').asstring := cms_codice;
   cmm_azzera.parambyname('cmt_codice').asstring := cmt_codice;
-  cmm_azzera.execsql;
+  cmm_azzera.cmt_codice;
 end;
 
 procedure TASSSAL.SpeedButton2Click(Sender: TObject);
