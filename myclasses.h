@@ -1,4 +1,3 @@
-
 ____________________________________________________________________________
 
 ****business_plan*** rev 05/02/2010
@@ -12,7 +11,7 @@ ___________________________________________________________________________
 ***Executive summary
 
 che tipo di azienda e'
-  una compagnia di sviluppo e assistenza software
+  una compagnia di sviluppo e asssistenza software
 
 Quali prodotti servizi? 
   -1 sviluppo di software specifico su commissione
